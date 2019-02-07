@@ -19,6 +19,10 @@ export default class GameUtil{
         var path : string = "config/map/";
         GameUtil.loadRes(path + name,completeCallback,connect);
     }
+    static loadSkillConfig(name : string, completeCallback: (resource: any) => void, connect?: number): void {
+        var path : string = "config/skill/";
+        GameUtil.loadRes(path + name,completeCallback,connect);
+    }
     static loadRes(url: string, completeCallback: (resource: any) => void, connect?: number): void {
         if (connect == null) {
             connect = 1

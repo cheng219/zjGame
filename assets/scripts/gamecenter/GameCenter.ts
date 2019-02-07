@@ -32,11 +32,11 @@ export default class GameCenter extends cc.Component {
         this.scheduleOnce(function()
         {
             UIMng.instance.loadMap();
-            GameUtil.loadMapConfig("stage1",(res)=>
+            GameUtil.loadSkillConfig("player1",(res)=>
             {
                 //var rawAsset : cc.RawAsset = <cc.RawAsset>res;
-                cc.log("loadMapConfig返回")
-                cc.log(res.json)
+                //cc.log("loadMapConfig返回")
+                cc.log(res.json.attack0)
             });
             UIMng.instance.loadPlayer((player)=>
             {

@@ -27,18 +27,18 @@ export default class Rocker extends cc.Component {
     {
         if(show)
         {
-            this.area.on(cc.Node.EventType.TOUCH_START,this.press,this);
-            this.mask.on(cc.Node.EventType.TOUCH_CANCEL,this.mouseUp,this);
-            this.area.on(cc.Node.EventType.TOUCH_CANCEL,this.mouseUp,this);
+            this.area.on(cc.Node.EventType.MOUSE_DOWN,this.press,this);
+            this.mask.on(cc.Node.EventType.MOUSE_UP,this.mouseUp,this);
+            this.area.on(cc.Node.EventType.MOUSE_UP,this.mouseUp,this);
             //this.node.on(cc.Node.EventType.TOUCH_START,this.press,this);
-            this.area.on(cc.Node.EventType.TOUCH_MOVE,this.move,this);
+            this.area.on(cc.Node.EventType.MOUSE_MOVE,this.move,this);
         }else
         {
-            this.area.off(cc.Node.EventType.TOUCH_START,this.press,this);
-            this.mask.off(cc.Node.EventType.TOUCH_CANCEL,this.mouseUp,this);
-            this.area.off(cc.Node.EventType.TOUCH_CANCEL,this.mouseUp,this);
+            this.area.off(cc.Node.EventType.MOUSE_DOWN,this.press,this);
+            this.mask.off(cc.Node.EventType.MOUSE_UP,this.mouseUp,this);
+            this.area.off(cc.Node.EventType.MOUSE_UP,this.mouseUp,this);
             //this.node.off(cc.Node.EventType.TOUCH_START,this.press,this);
-            this.area.off(cc.Node.EventType.TOUCH_MOVE,this.move,this);
+            this.area.off(cc.Node.EventType.MOUSE_MOVE,this.move,this);
         }
     }
 
@@ -47,6 +47,7 @@ export default class Rocker extends cc.Component {
     }
 
     startPressPos : cc.Vec2 = cc.v2();
+    startRockerPos : cc.Vec2 = cc.v2();
     press(event:cc.Event.EventTouch)
     {
         //触摸位置
@@ -54,38 +55,40 @@ export default class Rocker extends cc.Component {
         this.startPressPos = touchStartPos;
         cc.log("touchStartPos:"+touchStartPos);
         let nodePos = this.node.convertToNodeSpaceAR(touchStartPos);
+        this.startRockerPos = nodePos;
         this.rockerParent.setPosition(nodePos);
         this.Rocker.setPosition(nodePos);
         this.isRockMove = true;
     }
     mouseUp(event:cc.Event.EventTouch)
     {
-        this.Rocker.setPosition(this.originalPos);
-        this.rockerParent.setPosition(this.parentPos);
-        this.isRockMove = false;
+        if(this.isRockMove)
+        {
+            this.Rocker.setPosition(this.originalPos);
+            this.rockerParent.setPosition(this.parentPos);
+            GameCenter.instance.mainPlayer.stopMove();
+            this.isRockMove = false;
+        }
     }
     onMovePos : cc.Vec2 = cc.v2();
     move(event:cc.Event.EventTouch)
     {
-        //触摸位置
-        let touchStartPos = event.getLocation();
-        if(touchStartPos.sub(this.startPressPos).mag() > this.range)
+        if(this.isRockMove)
         {
-            touchStartPos =  cc.pMult(this.startPressPos.sub(touchStartPos).normalize(),this.range);
+            //触摸位置
+            let touchStartPos = event.getLocation();
+            if(touchStartPos.sub(this.startPressPos).mag() > this.range)
+            {
+                touchStartPos =  cc.pMult(touchStartPos.sub(this.startPressPos).normalize(),this.range).add(this.startPressPos);
+            }
+            this.onMovePos = touchStartPos;
+            cc.log("touchStartPos:"+touchStartPos);
+            let nodePos = this.node.convertToNodeSpaceAR(touchStartPos);
+            this.Rocker.setPosition(nodePos);
+            let dir = nodePos.sub(this.startRockerPos);
+            dir = dir.normalize()
+            GameCenter.instance.mainPlayer.updateMoveDir(dir);
         }
-        this.onMovePos = touchStartPos;
-        cc.log("touchStartPos:"+touchStartPos);
-        let nodePos = this.node.convertToNodeSpaceAR(touchStartPos);
-        this.Rocker.setPosition(nodePos);
-        let dir = nodePos.sub(this.originalPos)
-        dir = dir.normalize()
-        // this.schedule(()=>
-        // {
-        //     var pos = GameCenter.instance.mainPlayer.node.position;
-        //     pos = pos.add(dir);
-        //     cc.log(pos)
-        //     GameCenter.instance.mainPlayer.node.setPosition(pos)
-        // },0.5)
     }
 
     update(dt)
