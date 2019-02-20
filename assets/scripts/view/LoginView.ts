@@ -1,31 +1,35 @@
-// Learn TypeScript:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+import GameCenter from "../gamecenter/GameCenter";
+import ViewBase from "./base/ViewBase";
+
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
+export default class LoginView extends ViewBase
+{
+    
+    @property(cc.Button)
+    btnLogin : cc.Button = null;
     start () {
 
     }
 
-    // update (dt) {}
+    bindEvent(show)
+    {
+        console.log("loginView bindEvent");
+        if(show)
+        {
+            this.btnLogin.node.on("click",this.clickLogin,this);
+            
+        }else
+        {
+            this.btnLogin.node.off("click",this.clickLogin,this);
+        }
+    }
+
+    clickLogin()
+    {
+        console.log("clickLogin")
+        GameCenter.loginMng.Login();
+    }
 }

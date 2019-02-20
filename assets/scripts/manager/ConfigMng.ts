@@ -5,7 +5,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class ConfigMng {
     private static instance : ConfigMng = null;
-    public getInstance() : ConfigMng
+    public static getInstance() : ConfigMng
     {
         if(ConfigMng.instance == null)
         {
@@ -17,7 +17,7 @@ export default class ConfigMng {
     private mapConfig = null;
     public initMapConfig()
     {
-        GameUtil.loadMapConfig("stage",(res)=>
+        GameUtil.loadConfig("stageConfig",(res)=>
         {
             this.mapConfig = res.json;
         });
@@ -33,7 +33,7 @@ export default class ConfigMng {
     private playerSkillConfig = null;
     public initPlayerSkillConfig()
     {
-        GameUtil.loadSkillConfig("skill",(res)=>
+        GameUtil.loadConfig("skillConfig",(res)=>
         {
             this.playerSkillConfig = res.json;
         });
@@ -47,6 +47,22 @@ export default class ConfigMng {
                 return this.playerSkillConfig[playerName][skillName];
             }
             return this.playerSkillConfig[playerName];
+        }
+    }
+
+    private actorConfig = null;
+    public initActorConfig()
+    {
+        GameUtil.loadConfig("actorConfig",(res)=>
+        {
+            this.actorConfig = res.json;
+        });
+    }
+    public getActorConfig(actorName:string)
+    {
+        if(this.actorConfig != null)
+        {
+            return this.actorConfig[actorName];
         }
     }
 }

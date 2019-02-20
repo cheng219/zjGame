@@ -1,0 +1,14 @@
+﻿{
+"player1":{
+    "model":"player1",
+    "skills":["101","102"],
+    "atk":100,
+    "def":100
+    },
+"monster1":{
+    "model":"monster1",
+    "skills":["1001"],
+    "atk":10,
+    "def":10
+    }
+}

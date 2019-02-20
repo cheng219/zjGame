@@ -1,0 +1,24 @@
+﻿{
+"101":{
+    "anim":"player1_attack",
+    "animTime":1,
+    "atkDis":80,
+    "atkTime":0.8,
+    "damage":1
+    },
+"102":{
+    "anim":"player1_drop",
+    "animTime":1,
+    "atkDis":80,
+    "atkTime":0.8,
+    "damage":1
+    },  
+
+    "1001":{
+        "anim":"player1_attack",
+        "animTime":1,
+        "atkDis":80,
+        "atkTime":0.8,
+        "damage":1
+        }   
+}

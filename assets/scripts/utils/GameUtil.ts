@@ -15,12 +15,8 @@ export default class GameUtil{
         var path : string = "prefab/map/";
         GameUtil.loadRes(path + name,completeCallback,connect);
     }
-    static loadMapConfig(name : string, completeCallback: (resource: any) => void, connect?: number): void {
-        var path : string = "config/map/";
-        GameUtil.loadRes(path + name,completeCallback,connect);
-    }
-    static loadSkillConfig(name : string, completeCallback: (resource: any) => void, connect?: number): void {
-        var path : string = "config/skill/";
+    static loadConfig(name : string, completeCallback: (resource: any) => void, connect?: number): void {
+        var path : string = "config/";
         GameUtil.loadRes(path + name,completeCallback,connect);
     }
     static loadRes(url: string, completeCallback: (resource: any) => void, connect?: number): void {

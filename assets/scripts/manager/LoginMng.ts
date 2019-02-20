@@ -1,5 +1,5 @@
 import GameCenter from "../gamecenter/GameCenter";
-
+import PlayerInfo from "../object/objectInfo/PlayerInfo"
 
 const {ccclass, property} = cc._decorator;
 
@@ -34,5 +34,19 @@ export default class LoginMng{
     public UnRegister()
     {
 
+    }
+
+    public Login()
+    {
+        this.LoginRsp();
+    }
+
+    public mainPlayerInfo : PlayerInfo = null;
+    protected LoginRsp()
+    {
+        var playerConfig = GameCenter.configMng.getActorConfig("player1");
+        this.mainPlayerInfo = new PlayerInfo();
+        this.mainPlayerInfo.SetPlayerConfig(playerConfig);
+        GameCenter.instance.enterStage();
     }
 }
